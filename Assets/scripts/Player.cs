@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using System.Collections.Generic;
 
 
 public class Player : MonoBehaviour
@@ -8,6 +10,8 @@ public class Player : MonoBehaviour
     public float xDir = 0;
     public int groundContacts = 0;
     public float jumpForce = 10;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,11 +22,11 @@ public class Player : MonoBehaviour
     void Update()
     {
         transform.Translate(new Vector3(1, 0, 0) * xDir * speed * Time.deltaTime);
+        
     }
     public void OnMove(InputAction.CallbackContext ctx)
     {
-        xDir = ctx.ReadValue<Vector2>().x;
-
+        xDir = ctx.ReadValue<Vector2>().x;        
 
     }
 
@@ -33,7 +37,7 @@ public class Player : MonoBehaviour
             GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 1) * jumpForce);
 
         }
-
+        
 
     }
 

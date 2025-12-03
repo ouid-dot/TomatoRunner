@@ -1,9 +1,10 @@
 using UnityEngine;
+using System;
 
 
 public class PlayerJump : MonoBehaviour
 {
-    private Rigidbody2D rb;
+    private Rigidbody2D rb; 
 
     [Header("Jump Settings")]
     public float jumpPower = 10f; // How strong the jump is
@@ -16,13 +17,20 @@ public class PlayerJump : MonoBehaviour
     private bool isGrounded;
     private bool canJump = true;
 
+    Animator animator;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
+        // --- Check and update velocities for animation transitions ---
+        animator.SetFloat("xVelocity", Math.Abs(Input.GetAxis("Horizontal")));
+        animator.SetFloat("yVelocity", rb.linearVelocity.y);
+
         // --- Check if the player is touching the ground ---
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
@@ -37,6 +45,8 @@ public class PlayerJump : MonoBehaviour
         {
             Jump();
             audioManager.PlaySFX(audioManager.jump);
+            isGrounded = false;
+            animator.SetBool("isJumping", !isGrounded);
         }
     }
 
@@ -58,8 +68,14 @@ public class PlayerJump : MonoBehaviour
     }
     AudioManager audioManager;
 
-private void Awake()
-{
-    audioManager = GameObject.FindGameObjectWithTag("audio").GetComponent<AudioManager>();
-}
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("audio").GetComponent<AudioManager>();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        isGrounded = true;
+        animator.SetBool("isJumping", !isGrounded);
+    }
 }
