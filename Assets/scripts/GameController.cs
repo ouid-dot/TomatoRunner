@@ -7,11 +7,13 @@ public class GameController : MonoBehaviour
     private AudioManager audioManager;
     private Animator animator;
     private Rigidbody2D rb;
+    public DeathCounter deathCounter;
 
     private void Awake()
     {
         // Get reference to the AudioManager in the scene
         audioManager = GameObject.FindGameObjectWithTag("audio").GetComponent<AudioManager>();
+        
     }
 
 
@@ -20,6 +22,7 @@ public class GameController : MonoBehaviour
         startPos = transform.position;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        deathCounter = FindObjectOfType<DeathCounter>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -60,6 +63,11 @@ public class GameController : MonoBehaviour
 
     void Die()
     {
+        if (deathCounter != null)
+        {
+            deathCounter.IncrementDeathCount();
+        }
+
         MiniJump();
         PlaySoundEffect();
         StartCoroutine(Respawn());
@@ -81,4 +89,5 @@ public class GameController : MonoBehaviour
         GetComponent<CapsuleCollider2D>().enabled = true;
 
     }
+    
 }
