@@ -27,16 +27,19 @@ public class GameController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("enemy"))
+        if (collision.CompareTag("enemy") && GetComponent<Collider2D>().enabled)
         {
+            // Disable the colliders (so only 1 death)
+            GetComponent<Collider2D>().enabled = false;
+            GetComponent<CapsuleCollider2D>().enabled = false;
+            Debug.Log("colliders disabled");
+
             // To switch to player death animation
             animator.SetBool("die", true);
 
             // Disable player input
             GetComponent<PlayerJump>().enabled = false;
             GetComponent<Player>().enabled = false;
-            GetComponent<Collider2D>().enabled = false;
-            GetComponent<CapsuleCollider2D>().enabled = false;
 
             // Player death
             Die();
@@ -45,7 +48,7 @@ public class GameController : MonoBehaviour
 
     private void MiniJump()
     {
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 5f);
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 4f);
     }
 
     private void PlaySoundEffect()
@@ -75,12 +78,10 @@ public class GameController : MonoBehaviour
 
     private IEnumerator Respawn()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.4f);
         transform.position = startPos;
 
         animator.SetBool("die", false);
-
-        MiniJump();
 
         GetComponent<PlayerJump>().enabled = true;
         GetComponent<Player>().enabled = true;

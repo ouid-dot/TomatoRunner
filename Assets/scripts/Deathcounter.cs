@@ -10,6 +10,9 @@ public class DeathCounter : MonoBehaviour
 
     void Start()
     {
+        // font
+        deathText.font = Resources.Load<TMP_FontAsset>("pixel_font");
+        deathText.fontSize = 0.6f;
         // Load the death count from PlayerPrefs if it exists, otherwise initialize to 0
         deathCount = PlayerPrefs.GetInt("DeathCount", 0); 
         UpdateDeathText();
