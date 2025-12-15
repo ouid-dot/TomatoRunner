@@ -1,6 +1,5 @@
 using UnityEngine;
 
-using UnityEngine;
 using TMPro; // Import TextMeshPro namespace
 
 public class DeathCounter : MonoBehaviour

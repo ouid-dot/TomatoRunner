@@ -11,13 +11,14 @@ public class FinishLine : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             audioManager.PlaySFX(audioManager.portalIn);
         }
     }
     private void Awake()
-{
-    audioManager = GameObject.FindGameObjectWithTag("audio").GetComponent<AudioManager>();
-}
+    {
+        // save current scene
+        PlayerPrefs.SetString("Level", SceneManager.GetActiveScene().name);
+        audioManager = GameObject.FindGameObjectWithTag("audio").GetComponent<AudioManager>();
+    }
 }

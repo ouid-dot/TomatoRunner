@@ -21,8 +21,6 @@ public class PauseButton : MonoBehaviour
     public void Home()
     {
         Time.timeScale = 1f;
-        // reset death count
-        PlayerPrefs.GetInt("DeathCount", 0);
         // go to title screen
         SceneManager.LoadSceneAsync("title");
     }

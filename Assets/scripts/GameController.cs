@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour
         startPos = transform.position;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        deathCounter = FindObjectOfType<DeathCounter>();
+        deathCounter = FindFirstObjectByType<DeathCounter>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
